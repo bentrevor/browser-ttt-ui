@@ -1,0 +1,8 @@
+<div id="space<%= position %>" class="space-div">
+  <div class='space-character'>
+    <%= @board.spaces[position] || '.' %>
+    <br />
+    <button type="button" data-character="x" data-position="<%= position %>">place x here</button><br />
+    <button type="button" data-character="o" data-position="<%= position %>">place o here</button>
+  </div>
+</div>
