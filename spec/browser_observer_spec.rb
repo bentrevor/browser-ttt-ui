@@ -34,9 +34,19 @@ describe BrowserObserver do
     assert_json_values false, "Refresh to play again."
   end
 
-  it "responds to requests for game over" do
-    observer.game_over mock.as_null_object
+  it "responds to o_wins notification" do
+    observer.o_wins
+    assert_json_values true, "O Wins!\nRefresh to play again."
+  end
+
+  it "responds to x_wins notification" do
+    observer.x_wins
     assert_json_values true, "X Wins!\nRefresh to play again."
+  end
+
+  it "responds to tie_game notification" do
+    observer.tie_game
+    assert_json_values true, "Tie Game!\nRefresh to play again."
   end
 
   def assert_json_values(valid, failure_message)
