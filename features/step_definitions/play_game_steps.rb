@@ -28,8 +28,7 @@ end
 
 Then /^we should see (?:a|an) "(.*?)" in position "(.*?)"$/ do |char, pos|
   within("div#space#{pos}") do
-    regex = (char == 'x') ? /^x/ : /^o/
-    regex = /^\./ if char == '.'
+    regex = /^#{Regexp.escape char}/
     find('div.space-character').text().should =~ regex
   end
 end

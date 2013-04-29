@@ -14,6 +14,7 @@ Feature: User plays game
     When we visit the home page
     And we try to place an "x" at position "0"
     Then we should see an "x" in position "0"
+    And we should see a "." in position "1"
 
   @javascript
   Scenario: Clicking 'O' first
@@ -34,4 +35,18 @@ Feature: User plays game
     And we try to place an "x" at position "2"
     Then we should see the flash message "X Wins! Refresh to play again."
 
+  @javascript
+  Scenario: Tie game
+    Given we haven't started a game yet
+    When we visit the home page
+    And we try to place an "x" at position "0"
+    And we try to place an "o" at position "1"
+    And we try to place an "x" at position "2"
+    And we try to place an "o" at position "4"
+    And we try to place an "x" at position "3"
+    And we try to place an "o" at position "5"
+    And we try to place an "x" at position "7"
+    And we try to place an "o" at position "6"
+    And we try to place an "x" at position "8"
+    Then we should see the flash message "Tie Game! Refresh to play again."
 
