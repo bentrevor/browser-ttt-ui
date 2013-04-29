@@ -37,3 +37,32 @@ div.space-character {
   border-left: 5px solid black;
   border-right: 5px solid black;
 }
+
+#title {
+  font-size: 2em;
+  margin-bottom: 25px;
+}
+
+#menu {
+  margin-left: auto;
+  margin-right: auto;
+  width: 30%;
+}
+
+.button-link {
+  padding: 10px 15px;
+  background: #eee;
+
+  -moz-box-shadow: 0px 0px 15px black;
+  -ms-box-shadow: 0px 0px 15px black;
+  -webkit-box-shadow: 0px 0px 15px black;
+  -o-box-shadow: 0px 0px 15px black;
+  box-shadow: 0px 0px 15px black;
+
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  -webkit-border-radius: 4px;
+  -o-border-radius: 4px;
+  border-radius: 4px;
+}
+

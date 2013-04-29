@@ -11,6 +11,14 @@ class SinatraApp < Sinatra::Base
   disable :show_exceptions
 
   get '/' do
+    redirect to '/menu'
+  end
+
+  get '/menu' do
+    erb :_menu
+  end
+
+  get '/single_player' do
     @board = session[:board] = Board.new
     @observer = session[:observer] = BrowserObserver.new
     @board.add_observer session[:observer]

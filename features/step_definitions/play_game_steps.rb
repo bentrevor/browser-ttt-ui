@@ -2,8 +2,8 @@ require 'capybara/cucumber'
 require_relative '../../sinatra_app'
 Capybara.app = SinatraApp
 
-Given /^a user visits the home page$/ do
-  visit '/'
+Given /^a user visits the menu page$/ do
+  visit '/menu'
 end
 
 When /^he tries to place an "(.*?)" at position "(.*?)"$/ do |char, pos|
@@ -11,6 +11,17 @@ When /^he tries to place an "(.*?)" at position "(.*?)"$/ do |char, pos|
     button = (char == 'x') ? 'button:first-of-type' : 'button:last-of-type'
     find(button).click
     sleep 0.5
+  end
+end
+
+When /^he clicks on "(.*?)"/ do |link|
+  click_link link
+end
+
+Then /^he should see the menu$/ do
+  within("#menu") do
+    page.body.should have_link("Start New Single Player Game", href: "single_player")
+    page.body.should have_link("Start New Multiplayer Game", href: "multiplayer")
   end
 end
 
