@@ -25,6 +25,18 @@ class SinatraApp < Sinatra::Base
     erb :ttt_game
   end
 
+  get '/multiplayer_menu' do
+    erb :_multiplayer_menu
+  end
+
+  post '/multiplayer_game' do
+    @name = params[:user_name]
+    @board = session[:board] = Board.new
+    @observer = session[:observer] = BrowserObserver.new
+    @board.add_observer session[:observer]
+    erb :_multiplayer_game
+  end
+
   get '/board' do
     @board = session[:board]
     erb :_board

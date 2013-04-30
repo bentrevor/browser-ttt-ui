@@ -1,0 +1,11 @@
+<div id="game_creator">
+  <%= @name %>
+</div>
+
+<div id="secret_code">
+  <%= (('a'..'z').to_a << (0..9).to_a).flatten.sample(8).join %>
+</div>
+
+<%= erb :ttt_game %>
+
+
