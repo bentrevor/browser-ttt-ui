@@ -34,6 +34,7 @@ class SinatraApp < Sinatra::Base
     @board = session[:board] = Board.new
     @observer = session[:observer] = BrowserObserver.new
     @board.add_observer session[:observer]
+    @flash_message = "Waiting for player to join..."
     erb :_multiplayer_game
   end
 

@@ -26,7 +26,7 @@ Feature: User plays game
     When he clicks on "Start New Single Player Game"
     And he tries to place an "o" at position "0"
     Then he should see a "." in position "0"
-    And he should see the flash message "It's not your turn."
+    And he should see the failure message "It's not your turn."
 
   @javascript
   Scenario: X wins the game
@@ -37,7 +37,7 @@ Feature: User plays game
     And he tries to place an "x" at position "1"
     And he tries to place an "o" at position "7"
     And he tries to place an "x" at position "2"
-    Then he should see the flash message "X Wins! Refresh to play again."
+    Then he should see the failure message "X Wins! Refresh to play again."
 
   @javascript
   Scenario: Tie game
@@ -52,5 +52,5 @@ Feature: User plays game
     And he tries to place an "x" at position "7"
     And he tries to place an "o" at position "6"
     And he tries to place an "x" at position "8"
-    Then he should see the flash message "Tie Game! Refresh to play again."
+    Then he should see the failure message "Tie Game! Refresh to play again."
 
