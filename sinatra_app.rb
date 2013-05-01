@@ -15,8 +15,7 @@ class SinatraApp < Sinatra::Base
   end
 
   get '/menu' do
-    @content = :menu
-    erb :layout
+    render_partial :menu
   end
 
   get '/single_player' do
@@ -24,31 +23,31 @@ class SinatraApp < Sinatra::Base
     @observer = session[:observer] = BrowserObserver.new
     @board.add_observer session[:observer]
 
-    @content = :ttt_game
-    erb :layout
+    render_partial :ttt_game
   end
 
-  get '/multiplayer_menu' do
-    @content = :multiplayer_menu
-    erb :layout
+  get '/remote_create' do
+    render_partial :remote_create
   end
 
-  post '/multiplayer_game' do
+  get '/remote_join' do
+    render_partial :remote_join
+  end
+
+  post '/remote_game' do
     @name = params[:user_name]
     @board = session[:board] = Board.new
     @observer = session[:observer] = BrowserObserver.new
     @board.add_observer session[:observer]
     @flash_message = "Waiting for player to join..."
 
-    @content = :multiplayer_game
-    erb :layout
+    render_partial :remote_game
   end
 
   get '/board' do
     @board = session[:board]
 
-    @content = :board
-    erb :layout
+    render_partial :board
   end
 
   post '/try_move' do
@@ -57,5 +56,11 @@ class SinatraApp < Sinatra::Base
     @observer = session[:observer]
     @board.try_move params[:character], params[:position]
     { valid: @observer.valid, failureMessage: @observer.failure_message }.to_json
+  end
+
+  private
+  def render_partial(partial)
+    @content = partial
+    erb :layout
   end
 end

@@ -6,10 +6,10 @@ Given /^a user visits the menu page$/ do
   visit '/menu'
 end
 
-Given /^his friend "(.*?)" has previously started a new multiplayer game$/ do |opponent|
+Given /^his friend "(.*?)" has previously started a new remote game$/ do |opponent|
   session = Capybara::Session.new :selenium, SinatraApp
   session.visit '/menu'
-  session.click_link "Start New Multiplayer Game"
+  session.click_link "Create New Remote Game"
   session.fill_in "name", with: opponent
   session.click_button "Submit"
   page.driver.browser.switch_to.window(page.driver.browser.window_handles.first)
@@ -37,10 +37,7 @@ When /^he enters "(.*?)" for his name$/ do |name|
 end
 
 Then /^he should see the menu$/ do
-  within("#menu") do
-    page.body.should have_link("Start New Single Player Game", href: "single_player")
-    page.body.should have_link("Start New Multiplayer Game", href: "multiplayer_menu")
-  end
+  page.body.should have_selector("#menu")
 end
 
 Then /^he should see a unique secret code for the game$/ do
