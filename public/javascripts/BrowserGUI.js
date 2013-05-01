@@ -7,11 +7,11 @@ BrowserGUI.prototype.errorCallback = function() {
 }
 
 BrowserGUI.prototype.reloadBoard = function() {
-  $('table#board_table').load('/board');
+  $('#board_container').load('/board');
 }
 
 BrowserGUI.prototype.showFailureMessage = function(message) {
-  $('div#failure_message').text(message);
+  $('#failure_message').text(message);
 }
 
 BrowserGUI.prototype.listenToButtons = function() {

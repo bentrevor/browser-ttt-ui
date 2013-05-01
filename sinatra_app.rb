@@ -1,6 +1,6 @@
 require 'sinatra'
 $: << File.expand_path(File.dirname(__FILE__) + "/lib")
-# Bundler.setup
+
 require 'tic_tac_toe_ai'
 require 'browser_observer'
 require 'json'
@@ -15,18 +15,22 @@ class SinatraApp < Sinatra::Base
   end
 
   get '/menu' do
-    erb :_menu
+    @content = :menu
+    erb :layout
   end
 
   get '/single_player' do
     @board = session[:board] = Board.new
     @observer = session[:observer] = BrowserObserver.new
     @board.add_observer session[:observer]
-    erb :ttt_game
+
+    @content = :ttt_game
+    erb :layout
   end
 
   get '/multiplayer_menu' do
-    erb :_multiplayer_menu
+    @content = :multiplayer_menu
+    erb :layout
   end
 
   post '/multiplayer_game' do
@@ -35,12 +39,16 @@ class SinatraApp < Sinatra::Base
     @observer = session[:observer] = BrowserObserver.new
     @board.add_observer session[:observer]
     @flash_message = "Waiting for player to join..."
-    erb :_multiplayer_game
+
+    @content = :multiplayer_game
+    erb :layout
   end
 
   get '/board' do
     @board = session[:board]
-    erb :_board
+
+    @content = :board
+    erb :layout
   end
 
   post '/try_move' do

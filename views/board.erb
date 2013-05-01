@@ -1,0 +1,19 @@
+<div id="board_container">
+  <table id="board_table">
+    <tr>
+      <td><%= erb :space, locals: {position: 0} %></td>
+      <td class="middle_column"><%= erb :space, locals: {position: 1} %></td>
+      <td><%= erb :space, locals: {position: 2} %></td>
+    </tr>
+    <tr>
+      <td class="middle_row"><%= erb :space, locals: {position: 3} %></td>
+      <td class="middle_row middle_column"><%= erb :space, locals: {position: 4} %></td>
+      <td class="middle_row"><%= erb :space, locals: {position: 5} %></td>
+    </tr>
+    <tr>
+      <td><%= erb :space, locals: {position: 6} %></td>
+      <td class="middle_column"><%= erb :space, locals: {position: 7} %></td>
+      <td><%= erb :space, locals: {position: 8} %></td>
+    </tr>
+  </table>
+</div>

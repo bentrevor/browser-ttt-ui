@@ -15,19 +15,20 @@ describe("BrowserGUI", function() {
 
   describe("reacting to server responses", function() {
     it("reloads the board for a successful move", function() {
+      loadFixtures('ttt_game.erb');
       spyOn($.fn, 'load');
       gui.reloadBoard();
       expect($.fn.load).toHaveBeenCalledWith('/board');
     });
 
     it("shows a failure message for unsuccessful moves", function() {
-      loadFixtures('_failure_message.erb');
+      loadFixtures('failure_message.erb');
       gui.showFailureMessage("content of failure_message div");
       expect($('div#failure_message')).toHaveText("content of failure_message div");
     });
 
     it("shows an error message for unsuccessful requests", function() {
-      loadFixtures('_failure_message.erb');
+      loadFixtures('failure_message.erb');
       gui.errorCallback();
       expect($('div#failure_message')).toHaveText("Something went wrong with that request - please try again.");
     });

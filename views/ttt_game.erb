@@ -1,11 +1,8 @@
-<script type="text/javascript" src="javascripts/minified-jquery.js"></script>
-<script type="text/javascript" src="javascripts/Service.js"></script>
-<script type="text/javascript" src="javascripts/BrowserGUI.js"></script>
-<link rel="stylesheet" type="text/css" href="css/stylesheet.css"></script>
-<%= erb :_flash_message %>
-<%= erb :_board %>
+<%= erb :flash_message %>
+<%= erb :board %>
 <br /> <br />
-<%= erb :_failure_message %>
+<%= erb :failure_message %>
+
 <script type="text/javascript">
   $(function() {
     gui = new BrowserGUI(new Service());
