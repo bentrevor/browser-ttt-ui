@@ -1,7 +1,10 @@
-<%= erb :flash_message %>
 <%= erb :board %>
+
 <br /> <br />
-<%= erb :failure_message %>
+
+<div id="flash_message">
+  <%= @flash_message %>
+</div>
 
 <script type="text/javascript">
   $(function() {

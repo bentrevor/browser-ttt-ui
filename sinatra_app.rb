@@ -18,7 +18,7 @@ class SinatraApp < Sinatra::Base
     erb :menu
   end
 
-  get '/single_player' do
+  get '/local_game' do
     @board = session[:board] = Board.new
     @observer = session[:observer] = BrowserObserver.new
     @board.add_observer session[:observer]
@@ -51,6 +51,7 @@ class SinatraApp < Sinatra::Base
   end
 
   post '/try_move' do
+    params[:secretCode] = "local" if params[:secretCode].nil?
     content_type :json
     @board = session[:board]
     @observer = session[:observer]

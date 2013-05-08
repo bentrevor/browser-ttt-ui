@@ -60,10 +60,6 @@ Then /^he should see (?:a|an) "(.*?)" in position "(.*?)"$/ do |char, pos|
   end
 end
 
-Then /^he should see the failure message "(.*?)"$/ do |message|
-  find('#failure_message').text.should == message
-end
-
 Then /^he should see the flash message "(.*?)"$/ do |message|
   find('#flash_message').text.should == message
 end

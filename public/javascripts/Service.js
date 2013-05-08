@@ -21,10 +21,14 @@ Service.prototype.successCallback = function(data, gui) {
     setFailureMessage(data);
   }
 
-  if(data.failureMessage == "Thanks for playing! Refresh to play again.") {
+  if(gameIsOver(data)) {
     gui.stopListeningToButtons();
   }
   gui.showFailureMessage(data.failureMessage);
+}
+
+function gameIsOver(data) {
+  return false;
 }
 
 function setFailureMessage(data) {

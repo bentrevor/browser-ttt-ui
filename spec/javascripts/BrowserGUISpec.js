@@ -15,22 +15,22 @@ describe("BrowserGUI", function() {
 
   describe("reacting to server responses", function() {
     it("reloads the board for a successful move", function() {
-      loadFixtures('ttt_game.erb');
+      loadFixtures('board.erb');
       spyOn($.fn, 'load');
       gui.reloadBoard();
       expect($.fn.load).toHaveBeenCalledWith('/board');
     });
 
     it("shows a failure message for unsuccessful moves", function() {
-      loadFixtures('failure_message.erb');
+      loadFixtures('ttt_game.erb');
       gui.showFailureMessage("content of failure_message div");
-      expect($('div#failure_message')).toHaveText("content of failure_message div");
+      expect($('#flash_message')).toHaveText("content of failure_message div");
     });
 
     it("shows an error message for unsuccessful requests", function() {
-      loadFixtures('failure_message.erb');
+      loadFixtures('ttt_game.erb');
       gui.errorCallback();
-      expect($('div#failure_message')).toHaveText("Something went wrong with that request - please try again.");
+      expect($('#flash_message')).toHaveText("Something went wrong with that request - please try again.");
     });
   });
 
@@ -46,18 +46,10 @@ describe("BrowserGUI", function() {
       $('body').append(fake_board);
     });
 
-    it("binds listeners to newly-loaded buttons", function() {
+    it("triggers attemptMove on click", function() {
       gui.listenToButtons();
       first_button.click();
-      expect(service.attemptMove).toHaveBeenCalledWith('x', 0, gui);
-
-      var new_button = $("<button>");
-      new_button.data('position', 1);
-      new_button.data('character', 'o');
-      $('body').append(new_button);
-
-      new_button.click();
-      expect(service.attemptMove).toHaveBeenCalledWith('o', 1, gui);
+      expect(service.attemptMove).toHaveBeenCalled();
     });
 
     it("can stop listening to buttons", function() {

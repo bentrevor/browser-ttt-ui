@@ -13,7 +13,7 @@ describe("Service", function() {
   });
 
   afterEach(function() {
-    ajaxRequests = [];
+    clearAjaxRequests;
   });
 
   it("sends a POST request to '/try_move'", function() {
@@ -22,39 +22,38 @@ describe("Service", function() {
   });
 
   it("sends character and position parameters", function() {
-    expect(request.params).toBe("character=x&position=0");
+    expect(request.params).toMatch(/character=x&position=0/);
 
     makeAjaxRequest('o', 2);
-    expect(request.params).toBe("character=o&position=2");
+    expect(request.params).toMatch(/character=o&position=2/);
   });
 
-  describe("on success", function() {
+  it("calls the gui's errorCallback when request is unsuccessful", function() {
+    setResponse(TestResponses.attemptMove.error);
+    expect(fake_gui.errorCallback).toHaveBeenCalled();
+  });
+
+
+  describe("successful request", function() {
     beforeEach(function() {
       spyOn($, 'ajax').andCallFake(function(options) {
         options.success(JSON.parse(request.responseText));
       });
     });
 
-    it("calls successCallback", function() {
-      spyOn(service, 'successCallback');
+    it("shows the failureMessage", function() {
       setResponse(TestResponses.attemptMove.success_with_valid_move);
-      expect(service.successCallback).toHaveBeenCalledWith(responseJSON, fake_gui);
+      expect(fake_gui.reloadBoard).toHaveBeenCalled();
+      expect(fake_gui.showFailureMessage).toHaveBeenCalled();
     });
 
-    describe("with valid move", function() {
-      it("tells the gui to reload the board", function() {
-        setResponse(TestResponses.attemptMove.success_with_valid_move);
-        expect(fake_gui.reloadBoard).toHaveBeenCalled();
-      });
+    xit("removes click listeners if the game is over", function() {
+      setResponse(TestResponses.attemptMove.success_with_valid_move);
+      expect(fake_gui.stopListeningToButtons).not.toHaveBeenCalled();
 
-      it("removes click listeners if the game is over", function() {
-        setResponse(TestResponses.attemptMove.success_with_valid_move);
-        expect(fake_gui.stopListeningToButtons).not.toHaveBeenCalled();
-
-        setResponse(TestResponses.attemptMove.success_with_game_over);
-        makeAjaxRequest('x', 0);
-        expect(fake_gui.stopListeningToButtons).toHaveBeenCalled();
-      });
+      setResponse(TestResponses.attemptMove.success_with_game_over);
+      makeAjaxRequest('x', 0);
+      expect(fake_gui.stopListeningToButtons).toHaveBeenCalled();
     });
 
     describe("with invalid move", function() {
@@ -67,13 +66,6 @@ describe("Service", function() {
         setResponse(TestResponses.attemptMove.success_with_no_failure_message);
         expect(fake_gui.showFailureMessage).toHaveBeenCalledWith("Sorry, something went wrong...");
       });
-    });
-  });
-
-  describe("on failure", function() {
-    it("sends an error message to the gui object", function() {
-      setResponse(TestResponses.attemptMove.error);
-      expect(fake_gui.errorCallback).toHaveBeenCalled();
     });
   });
 

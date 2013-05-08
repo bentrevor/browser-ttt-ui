@@ -11,13 +11,15 @@ BrowserGUI.prototype.reloadBoard = function() {
 }
 
 BrowserGUI.prototype.showFailureMessage = function(message) {
-  $('#failure_message').text(message);
+  $('#flash_message').text(message);
 }
 
 BrowserGUI.prototype.listenToButtons = function() {
-  var that = this;
+  var gui = this;
   $('body').on('click', 'button', function() {
-    that.service.attemptMove($(this).data('character'), $(this).data('position'), that);
+    gui.service.attemptMove($(this).data('character'),
+                            $(this).data('position'),
+                            gui);
   });
 }
 

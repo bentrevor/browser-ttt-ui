@@ -5,9 +5,14 @@ var TestResponses = {
       responseText: '{"valid":true,"failureMessage":""}'
     },
 
-    success_with_game_over: {
+    success_with_o_wins: {
       status: 200,
-      responseText: '{"valid":false,"failureMessage":"Thanks for playing! Refresh to play again."}'
+      responseText: '{"valid":false,"failureMessage":"O wins! Refresh to play again."}'
+    },
+
+    success_with_x_wins: {
+      status: 200,
+      responseText: '{"valid":false,"failureMessage":"X wins! Refresh to play again."}'
     },
 
     success_with_no_failure_message: {
