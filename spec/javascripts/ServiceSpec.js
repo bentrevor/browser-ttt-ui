@@ -13,7 +13,7 @@ describe("Service", function() {
   });
 
   afterEach(function() {
-    clearAjaxRequests;
+    clearAjaxRequests();
   });
 
   it("sends a POST request to '/try_move'", function() {
