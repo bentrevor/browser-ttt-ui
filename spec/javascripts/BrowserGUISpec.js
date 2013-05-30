@@ -1,62 +1,68 @@
-describe("BrowserGUI", function() {
-  var gui, service;
+describe( "BrowserGUI", function() {
+  var gui, fake_service;
   jasmine.getFixtures().fixturesPath = 'views/';
 
-  beforeEach(function() {
-    service = new Service();
-    gui = new BrowserGUI(service);
-    spyOn(gui.service, 'attemptMove');
+  beforeEach( function() {
+    fake_service = jasmine.createSpyObj( 'fake_service', ['reloadBoard',
+                                                          'attemptMove'] );
+    gui = new BrowserGUI( fake_service );
   });
 
-  afterEach(function() {
+  afterEach( function() {
     service = null;
     gui = null;
   });
 
-  describe("reacting to server responses", function() {
-    it("reloads the board for a successful move", function() {
-      loadFixtures('board.erb');
-      spyOn($.fn, 'load');
-      gui.reloadBoard();
-      expect($.fn.load).toHaveBeenCalledWith('/board');
-    });
-
-    it("shows a failure message for unsuccessful moves", function() {
-      loadFixtures('ttt_game.erb');
-      gui.showFailureMessage("content of failure_message div");
-      expect($('#flash_message')).toHaveText("content of failure_message div");
-    });
-
-    it("shows an error message for unsuccessful requests", function() {
-      loadFixtures('ttt_game.erb');
+  describe( "reacting to server responses", function() {
+    it( "shows an error message for unsuccessful requests", function() {
+      loadFixtures( 'ttt_game.erb' );
       gui.errorCallback();
-      expect($('#flash_message')).toHaveText("Something went wrong with that request - please try again.");
+      expect( $( '#flash_message' )).toHaveText( "Something went wrong with that request - please try again." );
+    });
+
+    describe( "success callback", function() {
+      it( "tells the service to reload the board for valid moves", function() {
+        var data = ( JSON.parse( TestResponses.attemptMove.success_with_valid_move.responseText ));
+        gui.successCallback( data );
+      });
     });
   });
 
-  describe("listening to buttons", function() {
+  describe( "listening to buttons", function() {
     var fake_board, first_button;
 
-    beforeEach(function() {
-      fake_board = $("<div>");
-      first_button = $("<button>");
-      first_button.data('position', 0);
-      first_button.data('character', 'x');
-      fake_board.append(first_button);
-      $('body').append(fake_board);
+    beforeEach( function() {
+      fake_board = $( "<div id='fake_board'>" );
+      first_button = $( "<button>" );
+      first_button.data( 'position', 0 );
+      first_button.data( 'character', 'x' );
+      fake_board.append( first_button );
+      $( 'body' ).append( fake_board );
     });
 
-    it("triggers attemptMove on click", function() {
+    afterEach( function() {
+      $( "#fake_board" ).remove();
+    });
+
+    it( "triggers attemptMove on click", function() {
       gui.listenToButtons();
       first_button.click();
-      expect(service.attemptMove).toHaveBeenCalled();
+      expect( fake_service.attemptMove ).toHaveBeenCalled();
     });
 
-    it("can stop listening to buttons", function() {
+    it( "can stop listening to buttons", function() {
       gui.listenToButtons();
       gui.stopListeningToButtons();
       first_button.click();
-      expect(service.attemptMove).not.toHaveBeenCalled();
+      expect( fake_service.attemptMove ).not.toHaveBeenCalled();
     });
   });
+
+  function getFakeResponseData() {
+    jasmine.Ajax.useMock();
+    service.attemptMove( character, position, fake_gui );
+    request = mostRecentAjaxRequest();
+    request.response( testResponse );
+    responseJSON = JSON.parse( request.responseText );
+  }
 });
