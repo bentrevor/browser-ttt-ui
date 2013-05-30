@@ -1,11 +1,11 @@
 describe( "BrowserGUI", function() {
-  var gui, fake_service;
+  var gui, fakeService;
   jasmine.getFixtures().fixturesPath = 'views/';
 
   beforeEach( function() {
-    fake_service = jasmine.createSpyObj( 'fake_service', ['reloadBoard',
-                                                          'attemptMove'] );
-    gui = new BrowserGUI( fake_service );
+    fakeService = jasmine.createSpyObj( 'fakeService', ['reloadBoard',
+                                                        'attemptMove'] );
+    gui = new BrowserGUI( fakeService );
   });
 
   afterEach( function() {
@@ -14,9 +14,10 @@ describe( "BrowserGUI", function() {
   });
 
   describe( "reacting to server responses", function() {
-    it( "shows an error message for unsuccessful requests", function() {
+    it( "shows a failure message for unsuccessful requests", function() {
       loadFixtures( 'ttt_game.erb' );
       gui.errorCallback();
+
       expect( $( '#flash_message' )).toHaveText( "Something went wrong with that request - please try again." );
     });
 
@@ -24,6 +25,24 @@ describe( "BrowserGUI", function() {
       it( "tells the service to reload the board for valid moves", function() {
         var data = ( JSON.parse( TestResponses.attemptMove.success_with_valid_move.responseText ));
         gui.successCallback( data );
+
+        expect( fakeService.reloadBoard ).toHaveBeenCalled();
+      });
+
+      it( "shows a failure message for invalid moves", function() {
+        loadFixtures( 'ttt_game.erb' );
+        var data = ( JSON.parse( TestResponses.attemptMove.success_with_invalid_position.responseText ));
+        gui.successCallback( data );
+
+        expect( $( '#flash_message' )).toHaveText( data.failureMessage );
+      });
+
+      it( "sets a default failure message when none is provided", function() {
+        loadFixtures( 'ttt_game.erb' );
+        var data = ( JSON.parse( TestResponses.attemptMove.success_with_no_failure_message.responseText ));
+        gui.successCallback( data );
+
+        expect( data.failureMessage ).toBe( "Sorry, something went wrong..." );
       });
     });
   });
@@ -47,22 +66,14 @@ describe( "BrowserGUI", function() {
     it( "triggers attemptMove on click", function() {
       gui.listenToButtons();
       first_button.click();
-      expect( fake_service.attemptMove ).toHaveBeenCalled();
+      expect( fakeService.attemptMove ).toHaveBeenCalled();
     });
 
     it( "can stop listening to buttons", function() {
       gui.listenToButtons();
       gui.stopListeningToButtons();
       first_button.click();
-      expect( fake_service.attemptMove ).not.toHaveBeenCalled();
+      expect( fakeService.attemptMove ).not.toHaveBeenCalled();
     });
   });
-
-  function getFakeResponseData() {
-    jasmine.Ajax.useMock();
-    service.attemptMove( character, position, fake_gui );
-    request = mostRecentAjaxRequest();
-    request.response( testResponse );
-    responseJSON = JSON.parse( request.responseText );
-  }
 });

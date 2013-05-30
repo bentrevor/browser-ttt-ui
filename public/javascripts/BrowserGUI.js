@@ -10,7 +10,7 @@ BrowserGUI.prototype.successCallback = function( data ) {
   }
 
   if( gameIsOver( data )) {
-    stopListeningToButtons();
+    this.stopListeningToButtons();
   }
   this.showFailureMessage( data.failureMessage );
 }
