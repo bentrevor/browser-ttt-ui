@@ -51,14 +51,13 @@ class SinatraApp < Sinatra::Base
   end
 
   post '/try_move' do
-    params[:secretCode] = "local" if params[:secretCode].nil?
     content_type :json
     @board = session[:board]
     @observer = session[:observer]
     @board.try_move params[:character], params[:position]
     { valid: @observer.valid,
       failureMessage: @observer.failure_message,
-      secretCode: params[:secretCode]
+      gameOver: @observer.game_over
     }.to_json
   end
 end
