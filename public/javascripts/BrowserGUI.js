@@ -9,18 +9,11 @@ BrowserGUI.prototype.successCallback = function( data ) {
     setFailureMessage( data );
   }
 
-  if( gameIsOver( data )) {
-    this.stopListeningToButtons();
-  }
   this.showFailureMessage( data.failureMessage );
 }
 
 BrowserGUI.prototype.errorCallback = function() {
   this.showFailureMessage( "Something went wrong with that request - please try again." );
-}
-
-BrowserGUI.prototype.reloadBoard = function() {
-  $( '#board_container' ).load( '/board' );
 }
 
 BrowserGUI.prototype.showFailureMessage = function( message ) {
@@ -36,16 +29,8 @@ BrowserGUI.prototype.listenToButtons = function() {
   });
 }
 
-BrowserGUI.prototype.stopListeningToButtons = function() {
-  $( 'body' ).off( 'click' );
-}
-
 function isValidMove( data ) {
   return data.valid === true;
-}
-
-function gameIsOver( data ) {
-  return false;
 }
 
 function setFailureMessage( data ) {

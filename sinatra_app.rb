@@ -57,7 +57,6 @@ class SinatraApp < Sinatra::Base
     @board.try_move params[:character], params[:position]
     { valid: @observer.valid,
       failureMessage: @observer.failure_message,
-      gameOver: @observer.game_over
     }.to_json
   end
 end

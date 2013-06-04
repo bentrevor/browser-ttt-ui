@@ -5,10 +5,7 @@ describe( "Service", function() {
     jasmine.Ajax.useMock();
     fake_gui = jasmine.createSpyObj( 'fake_gui',
                                       ['errorCallback',
-                                       'successCallback',
-                                       'reloadBoard',
-                                       'showFailureMessage',
-                                       'stopListeningToButtons'] );
+                                       'successCallback'] );
     service = new Service();
   });
 
@@ -25,10 +22,12 @@ describe( "Service", function() {
 
   it( "sends character and position parameters", function() {
     makeAjaxRequest( 'x', 0 );
-    expect( request.params ).toMatch( /character=x&position=0/ );
+    expect( request.params ).toMatch( /character=x/ );
+    expect( request.params ).toMatch( /position=0/ );
 
     makeAjaxRequest( 'o', 2 );
-    expect( request.params ).toMatch( /character=o&position=2/ );
+    expect( request.params ).toMatch( /character=o/ );
+    expect( request.params ).toMatch( /position=2/ );
   });
 
   it( "calls the gui's errorCallback when request fails", function() {
@@ -47,7 +46,7 @@ describe( "Service", function() {
 
   it( "reloads the board for a successful move", function() {
     spyOn( $.fn, 'load' );
-    service.reloadBoard();
+    service.reloadBoard( fake_gui );
     expect( $.fn.load ).toHaveBeenCalledWith( '/board' );
   });
 

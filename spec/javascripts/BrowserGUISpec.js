@@ -17,7 +17,6 @@ describe( "BrowserGUI", function() {
     it( "shows a failure message for unsuccessful requests", function() {
       loadFixtures( 'ttt_game.erb' );
       gui.errorCallback();
-
       expect( $( '#flash_message' )).toHaveText( "Something went wrong with that request - please try again." );
     });
 
@@ -67,13 +66,6 @@ describe( "BrowserGUI", function() {
       gui.listenToButtons();
       first_button.click();
       expect( fakeService.attemptMove ).toHaveBeenCalled();
-    });
-
-    it( "can stop listening to buttons", function() {
-      gui.listenToButtons();
-      gui.stopListeningToButtons();
-      first_button.click();
-      expect( fakeService.attemptMove ).not.toHaveBeenCalled();
     });
   });
 });
