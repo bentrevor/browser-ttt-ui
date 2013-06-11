@@ -26,24 +26,6 @@ class SinatraApp < Sinatra::Base
     erb :ttt_game
   end
 
-  get '/remote_create' do
-    erb :remote_create
-  end
-
-  get '/remote_join' do
-    erb :remote_join
-  end
-
-  post '/remote_game' do
-    @name = params[:user_name]
-    @board = session[:board] = Board.new
-    @observer = session[:observer] = BrowserObserver.new
-    @board.add_observer session[:observer]
-    @flash_message = "Waiting for player to join..."
-
-    erb :remote_game
-  end
-
   get '/board' do
     @board = session[:board]
 
