@@ -8,7 +8,6 @@ describe BrowserObserver do
 
     observer.valid.should be true
     observer.failure_message.should == ""
-    observer.game_over.should be false
   end
 
   it "resets the failure_message to nil" do
@@ -17,7 +16,6 @@ describe BrowserObserver do
 
     observer.valid.should be true
     observer.failure_message.should == ""
-    observer.game_over.should be false
   end
 
   it "responds to tie_game notification" do
@@ -25,7 +23,6 @@ describe BrowserObserver do
 
     observer.valid.should be true
     observer.failure_message.should == "Tie Game!\nRefresh to play again."
-    observer.game_over.should be true
   end
 
   it "responds to o_wins notification" do
@@ -33,7 +30,6 @@ describe BrowserObserver do
 
     observer.valid.should be true
     observer.failure_message.should == "O Wins!\nRefresh to play again."
-    observer.game_over.should be true
   end
 
   it "responds to x_wins notification" do
@@ -41,7 +37,6 @@ describe BrowserObserver do
 
     observer.valid.should be true
     observer.failure_message.should == "X Wins!\nRefresh to play again."
-    observer.game_over.should be true
   end
 
   it "responds to requests for unavailable positions" do
@@ -49,7 +44,6 @@ describe BrowserObserver do
 
     observer.valid.should be false
     observer.failure_message.should == "That position is already taken."
-    observer.game_over.should be false
   end
 
   it "responds to requests for invalid position" do
@@ -57,7 +51,6 @@ describe BrowserObserver do
 
     observer.valid.should be false
     observer.failure_message.should == "Pick a number 0-8."
-    observer.game_over.should be false
   end
 
   it "responds to requests from incorrect player" do
@@ -65,12 +58,6 @@ describe BrowserObserver do
 
     observer.valid.should be false
     observer.failure_message.should == "It's not your turn."
-    observer.game_over.should be false
-  end
-
-  def assert_json_values(valid, failure_message)
-    observer.valid.should be valid
-    observer.failure_message.should eq failure_message
   end
 end
 
