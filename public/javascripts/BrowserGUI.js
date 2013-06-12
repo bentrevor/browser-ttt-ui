@@ -24,8 +24,8 @@ BrowserGUI.prototype.listenToButtons = function() {
   var gui = this;
   $( 'body' ).on( 'click', 'button', function() {
     gui.service.attemptMove( $( this ).data( 'character' ),
-                            $( this ).data( 'position' ),
-                            gui );
+                             $( this ).data( 'position' ),
+                             gui );
   });
 }
 
