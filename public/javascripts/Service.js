@@ -1,8 +1,8 @@
 function Service() {}
 
 Service.prototype.attemptMove = function( character,
-                                         position,
-                                         gui ) {
+                                          position,
+                                          gui ) {
   var that = this;
   $.ajax({
     type: "POST",

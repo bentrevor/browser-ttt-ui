@@ -4,8 +4,8 @@ describe( "Service", function() {
   beforeEach( function() {
     jasmine.Ajax.useMock();
     fake_gui = jasmine.createSpyObj( 'fake_gui',
-                                      ['errorCallback',
-                                       'successCallback'] );
+                                    ['errorCallback',
+                                     'successCallback'] );
     service = new Service();
   });
 

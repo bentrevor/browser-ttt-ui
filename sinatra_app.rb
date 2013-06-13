@@ -28,6 +28,14 @@ EM.run do
       erb :ttt_game
     end
 
+    get '/remote' do
+      erb :remote_create
+    end
+
+    get '/remote_join' do
+      erb :remote_join
+    end
+
     get '/board' do
       @board = session[:board]
 
