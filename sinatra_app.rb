@@ -28,12 +28,20 @@ EM.run do
       erb :ttt_game
     end
 
-    get '/remote' do
+    get '/remote_create' do
       erb :remote_create
+    end
+
+    post '/remote_create' do
+      erb :menu
     end
 
     get '/remote_join' do
       erb :remote_join
+    end
+
+    post '/remote_join' do
+      erb :menu
     end
 
     get '/board' do

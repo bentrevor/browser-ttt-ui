@@ -1,11 +1,12 @@
 function WSHandler() {
+  $( 'form' ).submit( this.openWS );
 }
 
-WSHandler.prototype.listenForConnections = function() {
-  $( 'form' ).on( 'submit', openWS);
-}
-
-function openWS() {
-  var ws = WebSocket( 'ws://' + window.location.host + window.location.pathname );
+WSHandler.prototype.openWS = function() {
+  var ws = new WebSocket( 'ws://' + window.location.hostname + ':8080/' );
   return false;
 }
+
+$( function() {
+  var wsh = new WSHandler();
+});
